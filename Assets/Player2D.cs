@@ -1,43 +1,61 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player2D : MonoBehaviour
 {
+    
     public float speed = 5f;
     public float jumpForce = 7f;
     public bool hasKey = false;
 
-    Rigidbody2D rb;
-    bool isGrounded;
+    private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
+    private float _moveInput;
+    private bool _isGrounded;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        float move = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // 👉 รับค่า Input (A / D)
+        if (Keyboard.current != null)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            _moveInput = (Keyboard.current.dKey.isPressed ? 1 : 0) 
+                        - (Keyboard.current.aKey.isPressed ? 1 : 0);
+        }
+
+        // 👉 เดิน
+        _rb.linearVelocity = new Vector2(_moveInput * speed, _rb.linearVelocity.y);
+
+        // 👉 พลิกตัวละคร
+        if (_moveInput < 0) _spriteRenderer.flipX = true;
+        else if (_moveInput > 0) _spriteRenderer.flipX = false;
+
+        // 👉 กระโดด
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && _isGrounded)
+        {
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    // 👉 เช็คพื้น
+    private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+            _isGrounded = true;
         }
     }
 
-    void OnCollisionExit2D(Collision2D col)
+    private void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false;
+            _isGrounded = false;
         }
     }
 }

@@ -6,7 +6,7 @@ public class KillZone2D : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.transform.position = new Vector2(-18,3
+            col.transform.position = new Vector2(-25,3
                 );
         }
     }

@@ -17,10 +17,12 @@ public class Player2D : MonoBehaviour
     Rigidbody2D rb;
     float move;
     bool isGrounded;
+    SpriteRenderer _spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -30,6 +32,12 @@ public class Player2D : MonoBehaviour
                - (Keyboard.current.aKey.isPressed ? 1 : 0);
 
         rb.velocity = new Vector2(move * speed, rb.velocity.y);
+        
+        // 👉 พลิกตัวละคร
+        if (move < 0)
+            _spriteRenderer.flipX = true;
+        else if (move > 0)
+            _spriteRenderer.flipX = false;
 
         // จับเวลาตอนอยู่พื้น
         if (isGrounded)
@@ -50,6 +58,7 @@ public class Player2D : MonoBehaviour
 
             jumpBufferCounter = 0;
         }
+        
     }
 
     void OnCollisionEnter2D(Collision2D col)

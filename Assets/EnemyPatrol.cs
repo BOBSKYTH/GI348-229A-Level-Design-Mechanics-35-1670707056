@@ -12,24 +12,35 @@ public class EnemyPatrol : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate() // 👈 ใช้กับ Physics
     {
         rb.linearVelocity = new Vector2(speed * direction, rb.linearVelocity.y);
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        // �����á��Ѻ���
-        direction *= -1;
+        // 👉 กลับตัวเฉพาะตอนชน "Ground"
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            direction *= -1;
 
-        // ��ԡ��� (optional)
-        transform.localScale = new Vector3(direction, 1, 1);
+            // พลิกตัว
+            transform.localScale = new Vector3(direction, 1, 1);
+        }
     }
+
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player"))
-        {
-            col.transform.position = new Vector2(-18, 3);
-        }
+        if (!col.CompareTag("Player")) return;
+
+        Player2D player = col.GetComponent<Player2D>();
+        Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
+
+        // รีเซ็ตแรงก่อน
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
+        // วาปกลับ Checkpoint
+        col.transform.position = player.respawnPoint;
     }
 }

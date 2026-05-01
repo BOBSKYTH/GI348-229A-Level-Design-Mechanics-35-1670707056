@@ -15,11 +15,20 @@ public class MovingPlatform : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            target,
+            speed * Time.deltaTime
+        );
 
-        if (Vector2.Distance(transform.position, target) < 0.1f)
+        // 👉 ถึงจุดแล้วสลับเป้า
+        if (Vector2.Distance(transform.position, target) < 0.05f)
         {
-            target = target == pointA.position ? pointB.position : pointA.position;
+            if (target == pointA.position)
+                target = pointB.position;
+            else
+                target = pointA.position;
         }
+        
     }
 }

@@ -6,8 +6,17 @@ public class KillZone2D : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.transform.position = new Vector2(-25,3
-                );
+            Player2D player = col.GetComponent<Player2D>();
+
+            // วาปกลับ Checkpoint
+            col.transform.position = player.respawnPoint;
+
+            // รีเซ็ตแรง (สำคัญมาก ไม่งั้นเด้ง/ตกซ้ำ)
+            Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero;
+            }
         }
     }
 }

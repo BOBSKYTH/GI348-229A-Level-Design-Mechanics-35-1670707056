@@ -23,6 +23,11 @@ public class Player2D : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        rb = GetComponent<Rigidbody2D>();
+
+        // 👇 สำคัญมาก
+        respawnPoint = transform.position;
     }
 
     void Update()

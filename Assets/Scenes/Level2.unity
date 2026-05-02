@@ -113798,7 +113798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a13d2d6c824cf43a8248e75e746853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  nextSceneName: Level3
+  nextSceneName: END
 --- !u!212 &1799700830
 SpriteRenderer:
   serializedVersion: 2

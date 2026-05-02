@@ -13,11 +13,11 @@ public class Door : MonoBehaviour
 
             if (player.hasKey)
             {
-                SceneManager.LoadScene("Level2");
+                SceneManager.LoadScene(nextSceneName);
             }
             else
             {
-                Debug.Log("��ͧ�աحᨡ�͹!");
+                Debug.Log("��ͧ�աحᨡ�͹!");
             }
         }
     }
